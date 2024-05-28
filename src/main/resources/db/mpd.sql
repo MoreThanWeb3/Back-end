@@ -52,13 +52,13 @@ VALUES
     (2, 'Deux', 'Tiavina', 'tiavin@gmail.com', 'Interested in a test drive', '+261 32 57 778 44', '2024-06-01 14:00:00', 'validated'),
     (3, 'Ravo', 'Geraldo', 'gerald@gmail.com', 'Would like more information', '+261 33 18 184 68', '2024-06-05 16:00:00', 'rejected');
 
-CREATE TABLE User (
+CREATE TABLE "User" (
                       id serial PRIMARY KEY,
                       email VARCHAR(255) NOT NULL UNIQUE,
                       password VARCHAR(255) NOT NULL,
                       name VARCHAR(255)
 );
-INSERT INTO User (email, password, name)
+INSERT INTO "User" (email, password, name)
 VALUES
     ('admin@example.com', 'azerty', 'Admin admin'),
     ('manager@example.com', 'carshow', 'Manager Two'),
