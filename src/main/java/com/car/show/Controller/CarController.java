@@ -2,8 +2,8 @@ package com.car.show.Controller;
 
 import com.car.show.Model.Car;
 import com.car.show.Service.CarService;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,18 +13,29 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/cars")
 public class CarController {
+
     @Autowired
-    private  CarService carService;
+    private CarService carService;
 
     @GetMapping
-    public List<Car> getAllCars() {
-        return carService.getAllCars();
+    public ResponseEntity<List<Car>> getAllCars(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size) {
+        List<Car> cars = carService.getCars(page, size);
+        int totalCars = carService.getTotalCars();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Range", "cars " + page * size + "-" + ((page + 1) * size - 1) + "/" + totalCars);
+
+        return ResponseEntity.ok().headers(headers).body(cars);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<Car> getCarById(@PathVariable Long id) {
         Optional<Car> car = carService.getCarById(id);
         return car.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
     @PostMapping
     public Car createCar(@RequestBody Car car) {
         return carService.saveCar(car);
@@ -51,6 +62,7 @@ public class CarController {
             return ResponseEntity.notFound().build();
         }
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCar(@PathVariable Long id) {
         carService.deleteCar(id);

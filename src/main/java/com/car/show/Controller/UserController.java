@@ -26,16 +26,16 @@ public class UserController {
         return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/sign-in")
+    @PostMapping("/sign-up")
     public User createUser(@RequestBody User user) {
         return userService.saveUser(user);
     }
 
-    @PostMapping("/sign-up")
+    @PostMapping("/sign-in")
     public ResponseEntity<String> signUpUser(@RequestBody User user) {
         boolean userExists = userService.existsByEmailAndPassword(user.getEmail(), user.getPassword());
         if (userExists) {
-            return ResponseEntity.ok("Sign-up successful");
+            return ResponseEntity.ok("Sign-in successful");
         } else {
             return ResponseEntity.badRequest().body("User not found or incorrect password");
         }
