@@ -40,7 +40,20 @@ public class Appointment {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+
     public enum Status {
-        PENDING, VALIDATED, REJECTED, ARCHIVED
+        PENDING,
+        CONFIRMED,
+        CANCELLED,
+        VALIDATED,
+        REJECTED;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }

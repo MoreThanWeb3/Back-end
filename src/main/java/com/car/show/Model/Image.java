@@ -1,5 +1,4 @@
 package com.car.show.Model;
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,4 +18,10 @@ public class Image {
     @Column(columnDefinition = "TEXT")
     private String url;
 
+    private Image() {}
+
+    public Image(Car car, String url) {
+        this.car = car;
+        this.url = url;
+    }
 }

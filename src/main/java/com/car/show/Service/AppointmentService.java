@@ -7,11 +7,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
 @Service
 public class AppointmentService {
+
     @Autowired
     private AppointmentRepository appointmentRepository;
+
+    @Autowired
+    private EmailService emailService;
+
     public List<Appointment> getAllAppointments() {
         return appointmentRepository.findAll();
     }
@@ -20,12 +24,28 @@ public class AppointmentService {
         return appointmentRepository.findById(id);
     }
 
-    public Appointment saveAppointment(Appointment appointment) {
-        return appointmentRepository.save(appointment);
+    public Appointment createAppointment(Appointment appointment) {
+        Appointment savedAppointment = appointmentRepository.save(appointment);
+        String recipientEmail = "hei.harizo@gmail.com";
+        sendAppointmentEmail(savedAppointment, recipientEmail);
+        return savedAppointment;
+    }
+
+    private void sendAppointmentEmail(Appointment appointment, String recipientEmail) {
+        emailService.sendAppointmentEmail(recipientEmail, appointment);
     }
 
     public void deleteAppointment(Long id) {
         appointmentRepository.deleteById(id);
     }
+
+    public void validateAppointment(Long appointmentId) {
+        Appointment appointment = appointmentRepository.findById(appointmentId)
+                .orElseThrow(() -> new RuntimeException("Appointment not found"));
+        appointment.setStatus(Appointment.Status.VALIDATED);
+        appointmentRepository.save(appointment);
+    }
 }
+
+
 
