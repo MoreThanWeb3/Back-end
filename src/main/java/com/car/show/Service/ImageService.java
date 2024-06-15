@@ -17,15 +17,14 @@ public class ImageService {
         return imageRepository.findAll();
     }
 
-    public Optional<Image> getImageById(Long id) {
-        return imageRepository.findById(id);
+    public List<Image> getImagesByCarId(Long carId) {
+        return imageRepository.findByCarId(carId);
     }
-
-    public Image saveImage(Image image) {
-        return imageRepository.save(image);
-    }
-
-    public void deleteImage(Long id) {
-        imageRepository.deleteById(id);
+    public String getMainImageByCarId(Long carId) {
+        List<Image> images = imageRepository.findByCarId(carId);
+        if (images != null && !images.isEmpty()) {
+            return images.get(0).getUrl();
+        }
+        return null;
     }
 }

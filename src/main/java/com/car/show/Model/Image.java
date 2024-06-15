@@ -1,4 +1,5 @@
 package com.car.show.Model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +13,8 @@ public class Image {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "car_id", nullable = false)
+    @JoinColumn(name = "car_id")
+    @JsonBackReference
     private Car car;
 
     @Column(columnDefinition = "TEXT")
@@ -24,4 +26,5 @@ public class Image {
         this.car = car;
         this.url = url;
     }
+
 }

@@ -36,11 +36,9 @@ public class FirebaseService {
     public List<Blob> getAllFiles() {
         List<Blob> blobs = new ArrayList<>();
         Page<Blob> blobsPage = storage.list("carshow-85232.appspot.com");
-
         for (Blob blob : blobsPage.iterateAll()) {
             blobs.add(blob);
         }
-
         return blobs;
     }
 
